@@ -4,14 +4,20 @@ interface InputText {
     label: string,
     data?: string,
     onChange?: Function,
-    hide?: boolean
+    hide?: boolean,
+    required?: boolean,
+    help?: string,
+    messageError?: string
 }
 
 interface InputNumber {
     label: string,
     data?: number,
     onChange?: Function,
-    hide?: boolean
+    hide?: boolean,
+    required?: boolean,
+    help?: string,
+    messageError?: string
 }
 
 interface InputSelect {
@@ -23,7 +29,10 @@ interface InputSelect {
     }[],
     multiple?: boolean,
     onChange?: Function,
-    hide?: boolean
+    hide?: boolean,
+    required?: boolean,
+    help?: string,
+    messageError?: string
 }
 
 interface InputButton {
@@ -68,7 +77,7 @@ export const FormSchema = reactive<Form>({
         });
         return datas
     },
-    checkRequired: () => {
+    checkRequired: ( message : string ) => {
         const datas : {label: string, value: boolean}[] = [];
         FormSchema.fields.forEach(field => {
             const inputs = [
@@ -78,20 +87,32 @@ export const FormSchema = reactive<Form>({
             ];
             inputs.forEach(input => {
                 let data = input;
-                if(!data?.hide){
+                if(!data?.hide && data?.required){
                     const label = data?.label;
                     const value = data?.data;
                     if(label){
-                        if(value !== undefined){
+                        if(value){
                             datas.push({label: label, value: true})
+                            if(input){
+                                input.messageError = '';
+                            }
                         } else {
                             datas.push({label: label, value: false})
+                            if(input){
+                                input.messageError = message;
+                            }
                         }
                     }
                 }
             });
         });
-        return datas
+        let output = true;
+        datas.forEach(element => {
+            if(element.value === false){
+                output = false;
+            }
+        });
+        return output
     },
 });
 
