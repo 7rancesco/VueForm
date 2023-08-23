@@ -38,6 +38,8 @@ interface InputSelect {
 interface InputButton {
     type: "button" | "submit" | "reset",
     text: string,
+    colorText: string,
+    colorBG: string,
     onClick?: Function,
     disabled?: boolean
 }
