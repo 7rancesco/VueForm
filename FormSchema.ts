@@ -44,11 +44,18 @@ interface InputButton {
     disabled?: boolean
 }
 
+interface Collection{
+    label: string,
+    fields: Field[][],
+    hide?: boolean
+}
+
 interface Field {
     inputText?: InputText,
     inputNumber?: InputNumber,
     inputSelect?: InputSelect,
     inputButton?: InputButton,
+    collection?: Collection
 }
 
 interface Form {
@@ -60,7 +67,7 @@ interface Form {
 export const FormSchema = reactive<Form>({
     fields: [],
     getData: () => {
-        const datas : {label: string, value: any}[] = [];
+        const datas : {label: string, value: any | any[] }[] = [];
         FormSchema.fields.forEach(field => {
             const inputs = [
                 field.inputText,
@@ -76,6 +83,35 @@ export const FormSchema = reactive<Form>({
                     datas.push({label: label, value: value})
                 }                
             });
+
+            //
+            if(field.collection){
+                const collectionData : {label: string, value: any[]} = {label: field.collection.label, value: []};
+                field.collection.fields.forEach(fields => {
+                    const values : any[] = [];
+                    fields.forEach(element => {
+                        const inputs = [
+                            element.inputText,
+                            element.inputNumber,
+                            element.inputSelect,
+                        ];
+                        
+                        inputs.forEach(input => {
+                            let data = input;
+                            if(!data?.hide){
+                                const label = data?.label;
+                                const value = data?.data;
+                                if(label && value)
+                                values.push({label: label, value: value})
+                            }                
+                        });
+                        
+                    });
+                    collectionData.value.push(values)
+                });
+                datas.push(collectionData)
+            }
+            //
         });
         return datas
     },
@@ -107,6 +143,40 @@ export const FormSchema = reactive<Form>({
                     }
                 }
             });
+
+            //
+            if(field.collection){
+                field.collection.fields.forEach(fields => {
+                    fields.forEach(element => {
+                        const inputs = [
+                            element.inputText,
+                            element.inputNumber,
+                            element.inputSelect,
+                        ];
+                        inputs.forEach(input => {
+                            let data = input;
+                            if(!data?.hide && data?.required){
+                                const label = data?.label;
+                                const value = data?.data;
+                                if(label){
+                                    if(value){
+                                        datas.push({label: label, value: true})
+                                        if(input){
+                                            input.messageError = '';
+                                        }
+                                    } else {
+                                        datas.push({label: label, value: false})
+                                        if(input){
+                                            input.messageError = message;
+                                        }
+                                    }
+                                }
+                            }                            
+                        });
+                    });
+                });
+            }
+            //
         });
         let output = true;
         datas.forEach(element => {
