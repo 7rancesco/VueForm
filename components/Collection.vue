@@ -123,27 +123,82 @@
 </script>
 
 <template>
-    <div style="width: 90vw;">{{ props.schema.label }}</div>
+    <div style="width: 90vw; margin-top: 20vh;"><h2>{{ props.schema.label }}</h2></div>
 
-    <div class="form_container" v-for="field in props.schema.fields">
+        <div class="form_container collection_container" v-for="field in props.schema.fields">
 
-        <div v-for="input in field">
-            <Text v-if="input.inputText" :schema="input.inputText"></Text>
-            <Number v-if="input.inputNumber" :schema="input.inputNumber"></Number>
-            <Select v-if="input.inputSelect" :schema="input.inputSelect"></Select>
-            <Button v-if="input.inputButton" :schema="input.inputButton"></Button>
-        </div>
-        <div>
-            <button @click="removeCollection(field)">Remove</button>
-        </div>
-    </div>    
+            <div v-for="input in field">
+                <Text v-if="input.inputText" :schema="input.inputText"></Text>
+                <Number v-if="input.inputNumber" :schema="input.inputNumber"></Number>
+                <Select v-if="input.inputSelect" :schema="input.inputSelect"></Select>
+                <Button v-if="input.inputButton" :schema="input.inputButton"></Button>
+            </div>
+            <div class="form_component">
+                <button @click="removeCollection(field)">Remove</button>
+            </div>
+        </div>    
 
-    <div style="width: 90vw;">
-        <button @click="addCollection()">Add</button>
+    <div style="width: 90vw; margin-bottom: 10vh; align-items: center; border-bottom: solid 1px gray;" class="form_component">
+        <button @click="addCollection()" style="border-color: rgb(114, 131, 182); background: rgb(28, 105, 188); color:white;">Add {{ props.schema.label }}</button>
     </div>
     
 </template>
 
 <style scoped>
+    .form_container{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: start;
+        align-content: center;
+        column-gap: 1vw;
+        row-gap: 1vw;
+        padding: 2vw;
+    }
+
+    .form_component_container{
+        flex-grow: 1;
+        min-width: 44vw;
+        max-width: 44vw;
+    }    
+
+    @media (max-width: 700px){
+        .form_component_container{
+            flex-grow: 1;
+            min-width: 96vw;
+        }          
+    }    
+
+    .form_component{
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        padding: 2vw;
+        min-height: 5vh;
+        justify-content: center;
+        align-items: end;
+        min-width: 85vw;
+        max-width: 85vw;
+    }    
+    .form_component > button {
+        width: 30vw;
+        height: 5vh;
+        border-radius: 5px;
+        background-color: white;
+        border: solid 1px red;
+    }
+
+    .form_component > button:hover{
+        cursor: pointer;
+    }
+
+    .collection_container:nth-child(odd){
+        background: rgba(241, 237, 241, 0.389);
+        border-top: solid 1px rgba(128, 128, 128, 0.183);
+        border-bottom: solid 1px rgba(128, 128, 128, 0.335);
+    }        
+    .collection_container:nth-child(even){
+        background: rgba(237, 239, 241, 0.322);
+    }        
 
 </style>
