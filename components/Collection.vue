@@ -97,6 +97,15 @@
         props.schema.fields.push(newCollection)
     }
 
+    const removeCollection = (field : Field[]) => {
+        const index = props.schema.fields.indexOf(field);
+        props.schema.fields.forEach((element, i) => {
+            if(i === index){
+                props.schema.fields = props.schema.fields.filter(e => e !== element);
+            }
+        });
+    }
+
 </script>
 
 <template>
@@ -110,7 +119,9 @@
             <Select v-if="input.inputSelect" :schema="input.inputSelect"></Select>
             <Button v-if="input.inputButton" :schema="input.inputButton"></Button>
         </div>
-
+        <div>
+            <button @click="removeCollection(field)">Remove</button>
+        </div>
     </div>    
 
     <div style="width: 90vw;">
