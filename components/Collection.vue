@@ -92,6 +92,18 @@
                     }
                 });
             }
+            if(element.inputSelect){
+                newCollection.push({
+                    inputSelect: {
+                        label: element.inputSelect.label,
+                        options: element.inputSelect.options,
+                        help: element.inputSelect.help,
+                        required: element.inputSelect.required,
+                        messageError: element.inputSelect.messageError,
+                        onChange: element.inputSelect.onChange,
+                    }
+                });
+            }
         });
 
         props.schema.fields.push(newCollection)
@@ -101,7 +113,9 @@
         const index = props.schema.fields.indexOf(field);
         props.schema.fields.forEach((element, i) => {
             if(i === index){
-                props.schema.fields = props.schema.fields.filter(e => e !== element);
+                if(props.schema.fields.length > 1){
+                    props.schema.fields = props.schema.fields.filter(e => e !== element);
+                }
             }
         });
     }
