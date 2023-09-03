@@ -1,18 +1,10 @@
 <script setup lang="ts">
 
-    interface InputNumber {
-        schema:{
-            label: string,
-            data?: number,
-            onChange?: Function,
-            hide?: boolean,
-            required?: boolean,
-            help?: string,
-            messageError?: string            
-        }
+    interface Props {
+        schema: InputNumber
     }
 
-    const props = defineProps<InputNumber>();
+    const props = defineProps<Props>();
 
 </script>
 

@@ -1,17 +1,10 @@
 <script setup lang="ts">
 
-    interface InputButton {
-        schema:{
-            type: "button" | "submit" | "reset",
-            text: string,
-            onClick?: Function,
-            disabled?: boolean,
-            colorText: string,
-            colorBG: string,
-        }
+    interface Props {
+        schema: InputButton
     }
 
-    const props = defineProps<InputButton>();
+    const props = defineProps<Props>();
 
 </script>
 

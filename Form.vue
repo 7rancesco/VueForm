@@ -31,8 +31,8 @@
 <style scoped>
 
     .form_body{
-        min-height: 75vh;
-        max-height: 75vh;
+        min-height: 100vh;
+        max-height: 100vh;
         overflow-y: scroll;
     }
 

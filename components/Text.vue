@@ -1,18 +1,10 @@
 <script setup lang="ts">
 
-    interface InputText {
-        schema:{
-            label: string,
-            data?: string,
-            onChange?: Function,
-            hide?: boolean,
-            required?: boolean,
-            help?: string,
-            messageError?: string            
-        }
+    interface Props {
+        schema: InputText
     }
 
-    const props = defineProps<InputText>();
+    const props = defineProps<Props>();
 
 </script>
 
@@ -33,7 +25,7 @@
     .form_component{
         display: flex;
         flex-direction: column;
-        border: solid 1px rgb(221, 221, 221);
+        border: solid 1px var(--border);
         border-radius: 5px;
         padding: 2vw;
         min-height: 15vh;
@@ -41,12 +33,17 @@
     }
 
     label{
-        font-size: 1.8vw;
-        color: rgb(40, 51, 65);
+        font-size: 1.3rem;
+        color: var(--color);
     }    
 
     input{
-        font-size: 20px;
+        font-size: 19px;
+        background: rgba(0, 0, 0, 0.058);
+        border: solid 1px var(--border);
+        color: var(--color);
+        border-radius: 5px;
+        height: 4vh;
     }
 
 </style>

@@ -1,23 +1,10 @@
 <script setup lang="ts">
 
-    interface InputSelect {
-        schema: {
-            label: string,
-            data?: string | number | boolean | string[] | number[] | boolean[],
-            options: {
-                label: string | number | boolean,
-                value: string | number,
-            }[],
-            multiple?: boolean,
-            onChange?: Function,
-            hide?: boolean,
-            required?: boolean,
-            help?: string,
-            messageError?: string
-        }
+    interface Props {
+        schema: InputSelect
     }
 
-    const props = defineProps<InputSelect>();
+    const props = defineProps<Props>();
 
 </script>
 
