@@ -30,7 +30,8 @@ interface InputSelect {
     hide?: boolean,
     required?: boolean,
     help?: string,
-    messageError?: string
+    messageError?: string,
+    search?: boolean
 }
 
 interface InputButton {

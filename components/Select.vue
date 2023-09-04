@@ -1,10 +1,35 @@
 <script setup lang="ts">
-
+    import {SearchIn} from '../lib/SearchIn'
+    import { computed, ref } from 'vue';
+    import { formGET } from '../lib/formGET';
     interface Props {
         schema: InputSelect
     }
 
     const props = defineProps<Props>();
+
+    const inputSearch = ref<string>();
+    const outputSearch = computed(() => {
+        if(props.schema.search && inputSearch.value?.length){
+            const result = SearchIn(inputSearch.value, props.schema.options)
+            const sel = formGET.inputSelect(props.schema.label)
+            if(sel){
+                if(result?.length){
+                    sel.messageError = ''
+                    sel.data = result[0].value
+                    return result
+                } else {
+                    sel.data = undefined;
+                    sel.messageError = 'Not found'
+                    return []
+                }
+            }            
+
+            
+        } else {
+            return props.schema.options
+        }
+    })
 
 </script>
 
@@ -14,8 +39,9 @@
         <div class="form_component">
             <span style="color: red;">{{ props.schema.messageError }}</span>
             <label for="">{{ props.schema.label }}<span v-if="props.schema.required" style="color:gray;">*</span></label>
+            <input v-if="props.schema.search" v-model="inputSearch" placeholder="Search..." />
             <select v-model="props.schema.data" :multiple="props.schema.multiple" @change="props.schema.onChange">
-                <option v-for="o in props.schema.options" :value="o.value">{{ o.label }}</option>
+                <option v-for="o in outputSearch" :value="o.value">{{ o.label }}</option>
             </select>
             <span class="form_help" style="color: gray;">{{ props.schema.help }}</span>
         </div> 

@@ -123,16 +123,3 @@ export const FormSchema = reactive<Form>({
         return output
     },
 });
-
-// onChange Example
-// onChange: (e : Event) => {
-//     const value = (e.target as HTMLInputElement).value;
-//     const input = FormSchema.fields.find(e => e.inputNumber?.label === 'Numero');
-//     if(input?.inputNumber){
-//       if(value === 'hide'){
-//           input.inputNumber.hide = true;
-//       } else {
-//           input.inputNumber.hide = false;
-//       }
-//     }
-//   },
